@@ -68,11 +68,10 @@ public class ClientHandler extends Thread {
                 e.printStackTrace();
             }
         }while (curentUser==null);
+
 //        Active.put(curentUser.UnqeuName,this);      //Add the Hunduler to Map
         handlers.add(this);
-        for (ClientHandler handler : handlers) {
-            System.out.println(handler.curentUser.UnqeuName);
-        }
+
 
 //        System.out.println("the login is secssfuly"+this.curentUser.UnqeuName);
 ///////////////////////!!!!!!!!!!!! The User is logined !!!!!!!!!!!!!!!!///////////////////////////
@@ -114,7 +113,9 @@ public class ClientHandler extends Thread {
 //            e.printStackTrace();
         }
         finally {
-            //!!!!!!!Save the massage in file
+            //!!!!!!!!remove the Client from list Online User
+            //!!!!!!!!Update the list for All user
+            //!!!!!!!!Save the massage in file
             try {
                 socket.close();
             } catch (IOException e) {

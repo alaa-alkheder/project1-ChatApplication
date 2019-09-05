@@ -25,12 +25,21 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 640, 390));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
-
+  static   ServerSocket s= null;
 
     public static void main(String[] args)  {
+
+
+        try {
+            s = new ServerSocket(8080);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 //        JSONObject js=new JSONObject();
         User a=new User();
         a.Name="alaa";
@@ -43,30 +52,31 @@ public class Main extends Application {
         a.UnqeuName="abd";
         a.password="abd";
         user.put(a.UnqeuName,a);
-//        a.isWork=false;
-////        js.put;
-//        String path = "json.json";
-//a=(User)js.get("1");
+        launch(args);
+////        a.isWork=false;
+//////        js.put;
+////        String path = "json.json";
+////a=(User)js.get("1");
+////        try {
+////            FileWriter file = new FileWriter(path);
+////            file.write(js.toString());
+////            file.flush();
+////        } catch (IOException e) {
+////            e.printStackTrace();
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////        }
+//               ServerSocket  s= null;
 //        try {
-//            FileWriter file = new FileWriter(path);
-//            file.write(js.toString());
-//            file.flush();
+//            s = new ServerSocket(8080);
+//            while (true){
+//                new ClientHandler(s.accept()).start();
+//            }
 //        } catch (IOException e) {
 //            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
 //        }
-               ServerSocket  s= null;
-        try {
-            s = new ServerSocket(8888);
-            while (true){
-                new ClientHandler(s.accept()).start();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-//        launch(args);
+
 
 
 

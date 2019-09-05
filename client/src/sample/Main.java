@@ -27,7 +27,7 @@ public class Main extends Application {
 
 
       try {
-          Socket sock = new Socket("localhost", 8888);
+          Socket sock = new Socket("localhost", 8080);
           ArrayList<Object> mass= new ArrayList<Object>();
           ObjectOutputStream out = new ObjectOutputStream(sock.getOutputStream());
           InputStream input=sock.getInputStream();
@@ -61,7 +61,7 @@ m=be.readLine();
 ////
           mass=new ArrayList<Object>();
           mass.add(0,"K");
-          mass.add(1,"aa");
+          mass.add(1,"abd");
           out.writeObject(mass);
 //          out.writeObject(v);
           lis.start();
