@@ -1,15 +1,13 @@
 package sample;
 import org.json.simple.JSONObject;
+//import org.omg.CORBA.Object;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ClientHandler extends Thread {
     final int prot =8888;
@@ -17,8 +15,11 @@ public class ClientHandler extends Thread {
     Socket socket;
     ObjectInputStream in;
     ObjectOutputStream out;
-    static Set<ClientHandler> handlers = new HashSet<ClientHandler>();
+    static HashSet<ClientHandler> handlers = new HashSet<ClientHandler>();
+    static HashMap<String,ClientHandler>  Active= new HashMap<String, ClientHandler>();
     ArrayList<Object> Mass;
+    ArrayList<ArrayList<Object>> MassageQueue =new ArrayList<ArrayList<Object>>();
+
     public ClientHandler(Socket s) throws  IOException
     {
         curentUser =null;
@@ -39,6 +40,7 @@ public class ClientHandler extends Thread {
                     System.out.println("the User Name is error");
                     //return the User Name is error
               String      m="the User Name is error";
+                    Mass.add(1,"AA");
             Mass.add(0,m);
             sendMassage(Mass);
                 }
@@ -49,12 +51,14 @@ public class ClientHandler extends Thread {
                     System.out.println("the login is seecsssfuly");
                     String m="the login is seecsssfuly";
                     Mass.add(0,m);
+                    Mass.add(1,"BB");
                     sendMassage(Mass);
                     //return the login is seecsssfuly
                 }else {
                     System.out.println("the password is error");
                     String m="the password  is Error";
                     Mass.add(0,m);
+                    Mass.add(1,"AA");
                     sendMassage(Mass);
                     //return the password is error
                 }
@@ -63,46 +67,76 @@ public class ClientHandler extends Thread {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-
-
         }while (curentUser==null);
+//        Active.put(curentUser.UnqeuName,this);      //Add the Hunduler to Map
+        handlers.add(this);
+        for (ClientHandler handler : handlers) {
+            System.out.println(handler.curentUser.UnqeuName);
+        }
 
-        System.out.println("the login is secssfuly");
+//        System.out.println("the login is secssfuly"+this.curentUser.UnqeuName);
 ///////////////////////!!!!!!!!!!!! The User is logined !!!!!!!!!!!!!!!!///////////////////////////
 
 //send a massage to user for allow to send your massage
 ///////////////////////!!!!!!!!!!!! the Old massage was send to user !!!!!!!!!!!!!!!!///////////////////////////
+//        System.out.println("active"+Active.get(curentUser.UnqeuName).toString());
         try {
-            System.out.println("Server up");
+                //Start Chat
             while (true){
-            ArrayList<Object> v = (ArrayList<Object>) in.readObject();
-            String m = String.valueOf(v.get(0));
-            System.out.println("|||||||" + m);
-        }
-//            m="AAAAAAAAA111";
-//            v.add(0,m);
-//            sendMassage(v);
-//            ob=m;
-//            out.writeObject(v);
+                boolean temp =false; //to save a maasage in the userFile OR Temp File
+                System.out.println("Server up");
+                ArrayList<Object> reciveMassage = (ArrayList<Object>) in.readObject();
+                System.out.println("+++"+String.valueOf(reciveMassage.get(1)));
+                for (ClientHandler handler : handlers) {
+                 if(   handler.curentUser.UnqeuName.matches(String.valueOf(reciveMassage.get(1)))){
+                     System.out.println(handler.curentUser.UnqeuName+"="+String.valueOf(reciveMassage.get(1)));
+                     reciveMassage.set(1,curentUser.UnqeuName);
+                     handler.sendMassage(reciveMassage);
+                     temp =true;
+                     break;
+                 }
+                }
+                if (temp==false){
+                    //save a massage in the Temp File
+                    //SaveMassageInTempFile(,);
 
-//            socket.close();
-//
+                }else{ //the masssage is sended
+                //save a massage in the user File
+                //SaveMassageInUserFile(,);
+                }
+
+        }
+
         } catch (IOException e) {
 //            e.printStackTrace();
         }
         catch (ClassNotFoundException e) {
 //            e.printStackTrace();
         }
+        finally {
+            //!!!!!!!Save the massage in file
+            try {
+                socket.close();
+            } catch (IOException e) {
+//                e.printStackTrace();
+            }
+        }
 
     }
 
 
     public  void  sendMassage (ArrayList<Object> v ){
-
+//!!!!!!!!Filter The massage in the files
         try {
             out.writeObject(v);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void SaveMassageInUserFile (String path,ArrayList<ArrayList<Object>> Massages){
+
+    }
+    public void SaveMassageInTempFile (String path,ArrayList<ArrayList<Object>> Massages){
+
     }
 }

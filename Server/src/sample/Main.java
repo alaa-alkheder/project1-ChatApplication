@@ -37,6 +37,12 @@ public class Main extends Application {
         a.UnqeuName="aa";
         a.password="mm";
         user.put(a.UnqeuName,a);
+        a=null;
+        a=new User();
+        a.Name="abd";
+        a.UnqeuName="abd";
+        a.password="abd";
+        user.put(a.UnqeuName,a);
 //        a.isWork=false;
 ////        js.put;
 //        String path = "json.json";
