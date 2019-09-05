@@ -16,63 +16,78 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 600, 500));
         primaryStage.show();
     }
+    static Socket sock ;
+static ObjectOutputStream out = null;
+static   InputStream input= null;
+  public static void main(String[] args)  {
 
-
-  public static void main(String[] args) {
-//        launch(args);
-      BufferedReader be=new BufferedReader(new InputStreamReader(System.in));
-
+//      System.exit(-1);
+//      BufferedReader be=new BufferedReader(new InputStreamReader(System.in));
+//
+//
+//      try {
+      try {
+          sock = new Socket("localhost", 8080);
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+          ArrayList<Object> mass= new ArrayList<Object>();
 
       try {
-          Socket sock = new Socket("localhost", 8080);
-          ArrayList<Object> mass= new ArrayList<Object>();
-          ObjectOutputStream out = new ObjectOutputStream(sock.getOutputStream());
-          InputStream input=sock.getInputStream();
+          out = new ObjectOutputStream(sock.getOutputStream());
+      } catch (IOException e1) {
+          e1.printStackTrace();
+      }
+
+      try {
+          input = sock.getInputStream();
+      } catch (IOException e1) {
+          e1.printStackTrace();
+      }launch(args);
 //          ObjectInputStream in = new ObjectInputStream(input);
-          System.out.println("ssss");
-          String t;
-//          do {
+//          System.out.println("ssss");
+//          String t;
+////          do {
 
-
-          String m=be.readLine();
-
-          mass.add(0, m);
-m=be.readLine();
-//              m= "mm";
-              System.out.println(m);
-
-          mass.add(1,m);
+//          String m=be.readLine();
 //
-          out.writeObject(mass);
-
-//              mass = (ArrayList<Object>) in.readObject();
-              System.out.println("11" + String.valueOf(mass.get(0))+mass.get(1));
-              t= (String) mass.get(1);
-              System.out.println("44"+t);
-//          }while (!t.matches("BB"));
-//          in=null;
-          listner1 lis=new listner1(input);
-//          System.out.println("/////");
-
-          System.out.println("*******");
+//          mass.add(0, m);
+//m=be.readLine();
+////              m= "mm";
+//              System.out.println(m);
+//
+//          mass.add(1,m);
 ////
-          mass=new ArrayList<Object>();
-          mass.add(0,"K");
-          mass.add(1,"abd");
-          out.writeObject(mass);
-//          out.writeObject(v);
-          lis.start();
+//          out.writeObject(mass);
+//
+////              mass = (ArrayList<Object>) in.readObject();
+//              System.out.println("11" + String.valueOf(mass.get(0))+mass.get(1));
+//              t= (String) mass.get(1);
+//              System.out.println("44"+t);
+////          }while (!t.matches("BB"));
+////          in=null;
+//          listner1 lis=new listner1(input); lis.start();
+////          System.out.println("/////");
+//
+//          System.out.println("*******");
+//////
+//          mass=new ArrayList<Object>();
+//          mass.add(0,"K");
+//          mass.add(1,"abd");
+//          out.writeObject(mass);
+////          out.writeObject(v);
+
 
 
 
 //          sock.close();
 
 
-      } catch (IOException e) {
-          e.printStackTrace();
+//      } catch (IOException e) {
+//          e.printStackTrace();
 //      } catch (ClassNotFoundException e) {
 //          e.printStackTrace();
       }
@@ -81,33 +96,3 @@ m=be.readLine();
 //      }
 
   }
-
-    public static class listner1 extends Thread {
-        ObjectInputStream in;
-        listner1(InputStream input)  {
-            try {
-
-                in = new ObjectInputStream(input);
-                System.out.println("8888");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        @Override
-        public void run() {
-            while (true){
-                ArrayList mass= null;
-                try {
-                    mass = (ArrayList<Object>) in.readObject();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("____"+String.valueOf(mass.get(0)));
-            }
-
-        }
-    }
-
-}

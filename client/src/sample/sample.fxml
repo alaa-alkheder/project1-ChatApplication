@@ -1,8 +1,62 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="center" hgap="10" vgap="10"   xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <Pane prefHeight="471.0" prefWidth="600.0" GridPane.columnIndex="1">
+         <children>
+            <ListView fx:id="UserList" layoutX="432.0" layoutY="40.0" onMouseClicked="#returnUserName" prefHeight="314.0" prefWidth="165.0" style="-fx-background-color: #040492;">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="E_RESIZE" />
+               </cursor>
+            </ListView>
+            <ListView fx:id="massList" layoutY="40.0" prefHeight="314.0" prefWidth="431.0" style="-fx-background-color: #999999;" />
+            <Label layoutX="505.0" layoutY="19.0" text="User">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="155.0" layoutY="16.0" text="The Massage">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Button fx:id="login" layoutX="378.0" layoutY="421.0" mnemonicParsing="false" onAction="#Login" prefHeight="31.0" prefWidth="152.0" text="LOGIN" />
+            <TextArea fx:id="massge" layoutX="6.0" layoutY="354.0" prefHeight="31.0" prefWidth="314.0" promptText="Enter the Massage" />
+            <Button fx:id="send1" layoutX="318.0" layoutY="367.0" mnemonicParsing="false" onAction="#Send" prefHeight="31.0" prefWidth="121.0" text="Send" />
+            <TextField fx:id="userName" layoutX="25.0" layoutY="423.0" promptText="UserName" />
+            <PasswordField fx:id="pass" layoutX="200.0" layoutY="423.0" promptText="password" />
+            <ImageView fx:id="img1" fitHeight="373.0" fitWidth="593.0" layoutX="114.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/default.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
 </GridPane>
