@@ -5,11 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import jdk.nashorn.internal.objects.NativeRegExp;
 import netscape.javascript.JSObject;
 import org.json.simple.JSONObject;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -33,8 +33,7 @@ public class Main extends Application {
 
     public static void main(String[] args)  {
 
-
-        try {
+         try {
             s = new ServerSocket(8080);
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,7 +49,25 @@ public class Main extends Application {
         a=new User();
         a.Name="abd";
         a.UnqeuName="abd";
-        a.password="abd";
+        a.password="mm";
+        user.put(a.UnqeuName,a);
+        a=null;
+        a=new User();
+        a.Name="abd1";
+        a.UnqeuName="abd";
+        a.password="mm";
+        user.put(a.UnqeuName,a);
+        a=null;
+        a=new User();
+        a.Name="abd2";
+        a.UnqeuName="abd";
+        a.password="mm";
+        user.put(a.UnqeuName,a);
+        a=null;
+        a=new User();
+        a.Name="abd3";
+        a.UnqeuName="abd";
+        a.password="mm";
         user.put(a.UnqeuName,a);
         launch(args);
 ////        a.isWork=false;

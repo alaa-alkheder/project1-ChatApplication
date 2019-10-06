@@ -30,7 +30,7 @@ static   InputStream input= null;
 //
 //      try {
       try {
-          sock = new Socket("localhost", 8080);
+          sock = new Socket("127.0.0.1", 8080);
       } catch (IOException e) {
           e.printStackTrace();
       }

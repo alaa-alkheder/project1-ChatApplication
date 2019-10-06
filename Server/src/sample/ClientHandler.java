@@ -9,6 +9,8 @@ import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.*;
 
+import static sample.Main.user;
+
 public class ClientHandler extends Thread {
     final int prot =8888;
     User curentUser;
@@ -36,52 +38,57 @@ public class ClientHandler extends Thread {
                 Mass = (ArrayList<Object>) in.readObject();
                 String userName= (String) Mass.get(0);
                 String Password= (String) Mass.get(1);
-                if(Main.user.get(userName)==null) {
+                if(user.get(userName)==null) {
                     System.out.println("the User Name is error");
                     //return the User Name is error
-              String      m="the User Name is error";
-                    Mass.add(1,"AA");
-            Mass.add(0,m);
-            sendMassage(Mass);
+                    String m="the User Name is error";
+                    Mass.add(1,m);
+                     Mass.add(0,0);
+                      sendMassage(Mass);
                 }
-                String pass=Main.user.get(userName).password;
+                String pass= user.get(userName).password;
                 System.out.println("passs"+pass);
                 if(pass.matches(Password)){
-                    curentUser=Main.user.get(userName);
+                    curentUser= user.get(userName);
                     System.out.println("the login is seecsssfuly");
                     String m="the login is seecsssfuly";
-                    Mass.add(0,m);
-                    Mass.add(1,"BB");
+                    Mass.add(0,0);
+                    Mass.add(1,m);
                     sendMassage(Mass);
+
                     //return the login is seecsssfuly
                 }else {
                     System.out.println("the password is error");
                     String m="the password  is Error";
-                    Mass.add(0,m);
-                    Mass.add(1,"AA");
+                    Mass.add(0,0);
+                    Mass.add(1,m);
                     sendMassage(Mass);
                     //return the password is error
-                }
+             }
             } catch (IOException e) {
                 e.printStackTrace();
+                System.out.println("user log out");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+                System.out.println("user log out");
             }
         }while (curentUser==null);
-
-//        Active.put(curentUser.UnqeuName,this);      //Add the Hunduler to Map
-        handlers.add(this);
-
-
-//        System.out.println("the login is secssfuly"+this.curentUser.UnqeuName);
+          handlers.add(this);
 ///////////////////////!!!!!!!!!!!! The User is logined !!!!!!!!!!!!!!!!///////////////////////////
 
-//send a massage to user for allow to send your massage
-///////////////////////!!!!!!!!!!!! the Old massage was send to user !!!!!!!!!!!!!!!!///////////////////////////
-//        System.out.println("active"+Active.get(curentUser.UnqeuName).toString());
         try {
-                //Start Chat
+                    //Update the Online User in the Client
+                      UpdateTheOnlineListForAllUser();
+            // !!!!!!!!!!!!!!send a massage to user for allow to send your massage
+
+
+            /////////////////////////!!!!!!!!!!!! the Old massage was send to user !!!!!!!!!!!!!!!!///////////////////////////
+
+
+            ///////////////////////!!!!!!!!!!!! Start Chat !!!!!!!!!!!!!!!!///////////////////////////
+
             while (true){
+
                 boolean temp =false; //to save a maasage in the userFile OR Temp File
                 System.out.println("Server up");
                 ArrayList<Object> reciveMassage = (ArrayList<Object>) in.readObject();
@@ -113,9 +120,12 @@ public class ClientHandler extends Thread {
 //            e.printStackTrace();
         }
         finally {
-            //!!!!!!!!remove the Client from list Online User
+            //remove the Client from list Online User
+            handlers.remove(this);
+            UpdateTheOnlineListForAllUser();
             //!!!!!!!!Update the list for All user
             //!!!!!!!!Save the massage in file
+            System.out.println("finally");
             try {
                 socket.close();
             } catch (IOException e) {
@@ -124,8 +134,24 @@ public class ClientHandler extends Thread {
         }
 
     }
+//
+public void UpdateTheOnlineListForAllUser(){
+    Mass=new ArrayList<Object>();
+    Mass=new ArrayList<Object>();
+    Mass.add(0,"2");
+    System.out.println("____" + String.valueOf(Mass.get(0)));
+    for (ClientHandler c: handlers){
+        Mass.add(c.curentUser.UnqeuName);
+    }
+    sendMassageToAllUser(Mass);
 
+}
+//
+    public void UpdateTheUserListForAllUser(){
+        //the Type is 3
 
+    }
+//
     public  void  sendMassage (ArrayList<Object> v ){
 //!!!!!!!!Filter The massage in the files
         try {
@@ -134,10 +160,23 @@ public class ClientHandler extends Thread {
             e.printStackTrace();
         }
     }
+    //
+    public  void  sendMassageToAllUser (ArrayList<Object> v ){
+//!!!!!!!!Filter The massage in the files
+        for (ClientHandler c: handlers){
+                        c.sendMassage(v);
+                   }
+
+    }
+    //
     public void SaveMassageInUserFile (String path,ArrayList<ArrayList<Object>> Massages){
 
     }
+    //
     public void SaveMassageInTempFile (String path,ArrayList<ArrayList<Object>> Massages){
 
     }
+
+
+    //End the Class ClientHandler
 }

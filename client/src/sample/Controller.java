@@ -1,6 +1,7 @@
 package sample;
 
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
@@ -22,7 +23,7 @@ public class Controller {
 
 
     @FXML // fx:id="UserList"
-    private ListView<?> UserList; // Value injected by FXMLLoader
+    private    ListView<String> UserList; // Value injected by FXMLLoader
 
     @FXML // fx:id="massList"
     private ListView<?> massList; // Value injected by FXMLLoader
@@ -43,54 +44,90 @@ public class Controller {
     @FXML // fx:id="send"
     private Button send; // Value injected by FXMLLoader
     @FXML
+
     void returnUserName(MouseEvent event) {
-
+        System.out.println(UserList.getSelectionModel().getSelectedItems());
     }
+    public void UpdateUserList(ArrayList <Object> x){
+        UserList.getItems().removeAll();
+        for (int i = 1; i <x.size() ; i++) {
+            String a=String.valueOf(x.get(i));
+            System.out.println(a);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    UserList.getItems().add(a);
+                }
+            });
 
+
+        }}
 
     ArrayList<Object> mass= new ArrayList<Object>();
     ObjectOutputStream out  ;
     InputStream input ;
-    listner1 lis;
+    listner1 listner1;
+    String UserSender;
     @FXML
     void initialize() {
 
 
-        UserList.setVisible(false);
+
         massList.setVisible(false);
         massge.setVisible(false);
 //        login1.setVisible(false);
+        UserList.getItems().add("************");
+
+
+
+
     }
 
     public void Login(javafx.event.ActionEvent actionEvent) {
-//        System.out.println("SSSSSSSS");
-//        try {
-////          Main.sock = new Socket("localhost", 8080);
-//            ObjectOutputStream out = new ObjectOutputStream(Main.sock.getOutputStream());
-//            input=Main.sock.getInputStream();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        lis=new listner1(Main.input);
-        lis.start();
-        String m="aa";
 
-        mass.add(0, m);
-        m="mm";
-        System.out.println("pass"+m);
-         mass.add(1,m);
+        listner1=new listner1(Main.input);
+        listner1.start();
+        String Temp=userName.getText().toString();
+        mass.add(0, Temp);
+        System.out.println();
+//        m=pass.getText().toString();
+        Temp="mm";
+        System.out.println("pass"+Temp);
+         mass.add(1,Temp);
 //
         try {
           Main.out.writeObject(mass);
         } catch (IOException e) {
 //            e.printStackTrace();
         }
+        UserList.setVisible(true);
+        massList.setVisible(true);
+        massge.setVisible(true);
+//        userName.setVisible(false);
+        pass.setVisible(false);
+//        login1.setVisible(false);
+//        img.removeAll();
     }
 
     public void Send(javafx.event.ActionEvent actionEvent) {
+        UserSender= userName.getText().toString();
+        mass =new ArrayList<Object>();
+        mass.add(0,"4");
+        mass.add(1,UserSender);
+        mass.add(2,massge.getText().toString());
+        try {
+            Main.out.writeObject(mass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static class listner1 extends Thread {
+    public void CheackUser(MouseEvent mouseEvent) {
+        UserSender= userName.getText().toString();
+        System.out.println(UserSender );
+    }
+
+    public class listner1 extends Thread {
         ObjectInputStream in;
         listner1(InputStream input)  {
             try {
@@ -103,21 +140,41 @@ public class Controller {
         }
         @Override
         public void run() {
-            while (true){
-                ArrayList mass= null;
+            while (true) {
+                ArrayList mass = null;
                 try {
+
+
                     mass = (ArrayList<Object>) in.readObject();
+                    int x=Integer.valueOf(String.valueOf(mass.get(0)));
+                    System.out.println("Type mass recieved"+x);
+                    switch (x){
+                        case 0://Login mass
+                            System.out.println(mass);
+
+
+                            break;
+                        case 2://Update Online User
+                            UpdateUserList(mass);
+                             break;
+                        case 3://Update User list
+//                            UpdateUserList(mass);
+                            break;
+                        case 4://Update User list
+                            System.out.println(String.valueOf(mass.get(2)));
+                            break;
+
+                    }
                 } catch (IOException e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                 }
-                System.out.println("____"+String.valueOf(mass.get(0)));
+                System.out.println(mass);
+//                System.out.println("____" + String.valueOf(mass.get(0)));
             }
 
         }
+
+        }
     }
-
-}
-
-
