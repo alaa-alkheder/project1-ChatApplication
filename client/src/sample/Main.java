@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,42 +12,68 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Main extends Application {
+    static Stage stage;//=new Stage(new Scene(root1, 800, 500));
+
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 600, 500));
-        primaryStage.show();
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml")); stage=new Stage();
+        stage.setTitle("Login");
+        stage.setScene(new Scene(root, 800, 500));
+
+
+        stage.show();
+
+
+
+
+//        primaryStage.show();
     }
-    static Socket sock ;
-static ObjectOutputStream out = null;
-static   InputStream input= null;
-  public static void main(String[] args)  {
 
-//      System.exit(-1);
-//      BufferedReader be=new BufferedReader(new InputStreamReader(System.in));
-//
-//
-//      try {
-      try {
-          sock = new Socket("127.0.0.1", 8080);
-      } catch (IOException e) {
-          e.printStackTrace();
-      }
-          ArrayList<Object> mass= new ArrayList<Object>();
 
-      try {
-          out = new ObjectOutputStream(sock.getOutputStream());
-      } catch (IOException e1) {
-          e1.printStackTrace();
-      }
+    public static void ShowChatWidow() {
 
-      try {
-          input = sock.getInputStream();
-      } catch (IOException e1) {
-          e1.printStackTrace();
-      }launch(args);
+
+//        chatWidow.setTitle("Chat Window");
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Parent root1 = null;
+                try {
+                    root1 = FXMLLoader.load(getClass().getResource("sample.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage.setScene(new Scene(root1, 640, 390));
+            }
+        });
+
+    }
+
+    static Socket sock;
+    static ObjectOutputStream out = null;
+    static InputStream input = null;
+
+    public static void main(String[] args) {
+        try {
+            sock = new Socket("127.0.0.1", 8080);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ArrayList<Object> mass = new ArrayList<Object>();
+
+        try {
+            out = new ObjectOutputStream(sock.getOutputStream());
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+        try {
+            input = sock.getInputStream();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        launch(args);
 //          ObjectInputStream in = new ObjectInputStream(input);
 //          System.out.println("ssss");
 //          String t;
@@ -81,8 +108,6 @@ static   InputStream input= null;
 ////          out.writeObject(v);
 
 
-
-
 //          sock.close();
 
 
@@ -90,9 +115,9 @@ static   InputStream input= null;
 //          e.printStackTrace();
 //      } catch (ClassNotFoundException e) {
 //          e.printStackTrace();
-      }
+    }
 //      catch (ClassNotFoundException e) {
 //          e.printStackTrace();
 //      }
 
-  }
+}

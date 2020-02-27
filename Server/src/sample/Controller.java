@@ -51,6 +51,7 @@ public class Controller {
 
     @FXML // fx:id="searchfild"
     private TextField searchfild; // Value injected by FXMLLoader
+
     @FXML // fx:id="UserList"
     private ToggleGroup UserList; // Value injected by FXMLLoader
 
@@ -80,9 +81,11 @@ public class Controller {
         for (String user1 : UserName ) {
             onlineuser.getItems().add(user1);
         }}
-    @FXML
-    void adduser(ActionEvent event) {
 
+    @FXML
+    void adduser(ActionEvent event)
+    {
+        Main.showCreateUserWindow();
     }
 
     @FXML
@@ -121,36 +124,36 @@ System.exit(-1);
         user.put(a.UnqeuName,a);
         UserName.add(a.UnqeuName);
 //        a.isWork=false;
-////        js.put;
-//        String path = "json.json";
-//a=(User)js.get("1");
-//        try {
-//            FileWriter file = new FileWriter(path);
-//            file.write(js.toString());
-//            file.flush();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+//////        js.put;
+////        String path = "json.json";
+////a=(User)js.get("1");
+////        try {
+////            FileWriter file = new FileWriter(path);
+////            file.write(js.toString());
+////            file.flush();
+////        } catch (IOException e) {
+////            e.printStackTrace();
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////        }
 events.getItems().add("the server is started");
 te r=new te();
 r.start();
 
     }
-class  te extends Thread{
+
+    class  te extends Thread{
     @Override
     public void run() {
         try {
-
             while (true){
                 new ClientHandler(Main.s.accept()).start();
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
+
 }
 
