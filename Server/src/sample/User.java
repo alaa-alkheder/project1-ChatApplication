@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    public  String Name ;
+    public  String Name ;//only test
     public String UnqeuName; //we use unqeu Name to login
     public String Birthday;
     public String Email;
